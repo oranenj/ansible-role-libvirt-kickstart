@@ -20,4 +20,3 @@
         vm_netmask: 255.255.255.0
         vm_gateway: 10.1.1.1
         vm_nameserver: 10.1.1.1
-

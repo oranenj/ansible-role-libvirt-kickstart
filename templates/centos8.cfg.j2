@@ -1,9 +1,9 @@
 # Install
 
-install                                                           
+install
 lang en_US
 keyboard us
-skipx                                                                                                    
+skipx
 text
 
 repo --name="BaseOS" --baseurl={{ centos_mirror_root }}/8.3.2011/BaseOS/x86_64/os/
@@ -13,11 +13,11 @@ url --url {{ centos_mirror_root }}/8.3.2011/BaseOS/x86_64/kickstart/
 
 # mount /tmp as tmpfs
 services --enabled=tmp.mount
-                                                
+
 rootpw {{ root_password }}
 firewall --disabled
 
-# Create user for provisioning? 
+# Create user for provisioning?
 # user --name example --groups=wheel --password CHANGEME
 
 selinux --permissive
@@ -57,7 +57,7 @@ wget
 {% if consistent_interface_naming %}
 # revert consistent interface naming to traditional eth0, eth1, etc.
 ln -sf /dev/null /etc/udev/rules.d/80-net-name-slot.rules
-{% endif %} 
+{% endif %}
 # Example: set ssh key for provisioning user?
 #mkdir /home/example/.ssh
 #chown example: /home/example/.ssh
