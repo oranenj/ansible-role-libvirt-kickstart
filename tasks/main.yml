@@ -1,2 +1,37 @@
 ---
-# tasks
+- name: 'testing libvirt access to {{ libvirt_host }}'
+  virt:
+    command: list_vms
+    uri: "qemu+ssh://{{ libvirt_host | mandatory}}/system"
+- name: create tempfile
+  tempfile:
+    state: file
+  register: destfile
+- name: 'Rendering kickstart template to {{ destfile.path }}'
+  template:
+    src: '{{ kickstart_template | mandatory }}'
+    dest: '{{ destfile.path }}'
+- name: 'Run kickstart (this may take a while. you will not see any output if virt-viewer is not installed)'
+  command:
+    argv:
+      - virt-install
+      - --connect
+      - "qemu+ssh://{{ libvirt_host }}/system"
+      - --network
+      - "network={{ libvirt_network }}"
+      - --vcpus
+      - "{{ vm_vcpu_count | int }}"
+      - --ram
+      - "{{ (vm_memory_gb | int) * 1024 }}"
+      - --os-variant
+      - "{{ virt_install_os_variant }}"
+      - --disk
+      - "path={{ libvirt_data_dir }}/{{ vm_name }}_root.qcow2,size={{ vm_disk_size }},format=qcow2,bus=virtio"
+      - --name
+      - "{{ vm_name }}"
+      - --initrd-inject
+      - '{{ destfile.path }}'
+      - --location
+      - '{{ virt_install_location }}'
+      - --extra-args
+      - "ks=file:/{{ destfile.path | basename }} console=tty0 {% if !consistent_interface_naming } net.ifnames=0 {% endif %} ip={{ vm_ip_address }}::{{ vm_gateway }}:{{ vm_netmask }}:{{ vm_name }}:{{ vm_interface }}:none nameserver={{ vm_nameserver }}"

@@ -1,0 +1,5 @@
+---
+kickstart_mirror_root: https://mirror.phx1.us.spryservers.net/centos
+virt_install_location: https://mirror.phx1.us.spryservers.net/centos/8.3.2011/BaseOS/x86_64/kickstart/
+# 8.3 doesn't quite work?
+virt_install_os_variant: rhel8.2
