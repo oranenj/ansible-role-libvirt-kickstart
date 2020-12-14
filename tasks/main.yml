@@ -20,8 +20,8 @@
   when: 'vm_name not in vm_list.list_vms'
   debug:
     msg: |
-      "Installing {{ vm_name }} {{ vm_ip_address }}/{{ vm_netmask }}@{{ vm_interface }} on {{ libvirt_host }}"
-      "Disk: {{ libvirt_data_dir }}/{{ vm_name }}_root.qcow2, size {{ vm_disk_size }}GiB"
+      Installing {{ vm_name }} {{ vm_ip_address }}/{{ vm_netmask }}@{{ vm_interface }} on {{ libvirt_host }}
+      Disk: {{ libvirt_data_dir }}/{{ vm_name }}_root.qcow2, size {{ vm_disk_size }}GiB
 - name: 'Run kickstart (this may take a while. you will not see any output if virt-viewer is not installed)'
   when: 'vm_name not in vm_list.list_vms'
   command:
@@ -48,10 +48,10 @@
       - --noautoconsole
       - --extra-args
       - >
-        "ks=file:/{{ destfile.path | basename }}"
-        " console=tty0 {% if not consistent_interface_naming %} net.ifnames=0 {% endif %}"
-        " ip={{ vm_ip_address }}::{{ vm_gateway }}:{{ vm_netmask }}:{{ vm_name }}:{{ vm_interface }}:none"
-        " nameserver={{ vm_nameserver }}"
+        ks=file:/{{ destfile.path | basename }}
+        console=tty0 {% if not consistent_interface_naming %} net.ifnames=0 {% endif %}
+        ip={{ vm_ip_address }}::{{ vm_gateway }}:{{ vm_netmask }}:{{ vm_name }}:{{ vm_interface }}:none
+        nameserver={{ vm_nameserver }}
 - name: 'Installation done'
   when: 'vm_name not in vm_list.list_vms'
   debug:
