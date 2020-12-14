@@ -1,7 +1,35 @@
 CI Badge
 
-# Ansible template role
-basic Role to use going forward because I forget pieces
+# Ansible role for libvirt kickstart installs
+Runs virt-install to kickstart a host
+
+## Example usage
+```yaml
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    name: root_password
+    prompt: Give me the root password
+    private: yes
+    confirm: true
+    encrypt: sha512_crypt
+  roles:
+    - role: ansible-role-libvirt-kickstart
+      vars:
+        libvirt_host: vmhost
+        virt_install_location: https://ftp.funet.fi/pub/linux/mirrors/centos/8.3.2011/BaseOS/x86_64/kickstart/
+        centos_mirror_root: https://ftp.funet.fi/pub/linux/mirrors/centos/
+        vm_name: vmtest1.exmple.com
+        libvirt_network: ovs-trunk0,portgroup=vm
+        libvirt_data_dir: /storage/vm/images
+        consistent_interface_naming: false # default
+        vm_interface: "eth0" # default
+        vm_type: centos8 # see templates/
+        vm_ip_address: '10.1.1.3'
+        vm_netmask: 255.255.255.0
+        vm_gateway: 10.1.1.1
+        vm_nameserver: 10.1.1.1
+```
 
 ## Getting started
 Ensure all dependencies are installed and then follow the below process
@@ -29,10 +57,7 @@ There are a few files that are required to be updated when using this template
 The github actions are configured to automatically run the molecule tests but if you want to load them locally you will also need molecule installed on the development machine
 
 ## Advanced
-
 There are numerous other options within the [defaults/main.yml](./defaults/main.yml) that can change other parts of the behavior of the system
 
 ## Changelog
 The [changelog](./CHANGELOG.md) is stored externally
-
-

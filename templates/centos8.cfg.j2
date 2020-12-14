@@ -14,7 +14,7 @@ url --url {{ centos_mirror_root }}/8.3.2011/BaseOS/x86_64/kickstart/
 # mount /tmp as tmpfs
 services --enabled=tmp.mount
 
-rootpw {{ root_password }}
+rootpw --iscrypted {{ root_password }}
 firewall --disabled
 
 # Create user for provisioning?
