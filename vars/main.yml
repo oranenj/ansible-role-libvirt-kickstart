@@ -1,7 +1,0 @@
----
-consistent_naming: false
-vm_interface: 'eth0'
-vm_nameserver: '8.8.8.8'
-vm_vcpu_count: 1
-vm_memory_gb: 2
-libvirt_network: 'default'
